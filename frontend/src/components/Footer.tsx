@@ -16,21 +16,21 @@ function Footer() {
         </a>
       </div>
       <div className="flex justify-center gap-4 text-gray-500">
-        <Link href="https://github.com/DIFoundation/StakeAndBake">
+        <Link href="https://github.com/DIFoundation/MetaStake">
           <i className="fa-brands fa-github"></i>
         </Link>
-        <Link href="https://x.com/stakeandbake">
+        <Link href="https://x.com/metastake">
           <i className="fa-brands fa-x-twitter"></i>
         </Link>
-        <Link href="https://t.me/stakeandbake">
+        <Link href="https://t.me/metastake">
           <i className="fa-brands fa-telegram"></i>
         </Link>
-        <Link href="https://discord.com/invite/stakeandbake">
+        <Link href="https://discord.com/invite/metastake">
           <i className="fa-brands fa-discord"></i>
         </Link>
       </div>
       <p className="text-xs text-gray-500">
-        © {new Date().getFullYear()} StakeAndBake. All rights reserved.
+        © {new Date().getFullYear()} MetaStake. All rights reserved.
       </p>
     </footer>
   );

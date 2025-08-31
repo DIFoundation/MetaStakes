@@ -94,7 +94,7 @@ function UnstakeRequestCard({ requestData, requestId, onUpdate }: UnstakeRequest
     if (isSuccessProcess) {
       setIsProcessing(false);
       setIsModalOpen(false);
-      toast.success("XFI successfully claimed!");
+      toast.success("LSK successfully claimed!");
       if (onUpdate) onUpdate();
     }
   }, [isSuccessProcess, onUpdate]);
@@ -188,7 +188,7 @@ function UnstakeRequestCard({ requestData, requestId, onUpdate }: UnstakeRequest
             </span>
           </div>
           <p className="text-3xl font-bold text-white mb-2">
-            {formattedAmount} XFI
+            {formattedAmount} LSK
           </p>
           <p className="text-sm text-gray-400">
             <Clock className="inline h-4 w-4 mr-1" />
@@ -214,7 +214,7 @@ function UnstakeRequestCard({ requestData, requestId, onUpdate }: UnstakeRequest
                     Claiming...
                   </div>
                 ) : (
-                  "Claim XFI"
+                  "Claim LSK"
                 )}
               </button>
             </>
@@ -341,13 +341,13 @@ function UnstakeRequestList({ requestIds, onUpdate }: UnstakeRequestListProps) {
   const processedRequests = requestDetails
     ?.map((result, index) => {
       if (result.status === "success" && result.result) {
-        const [user, xfiAmount, unlockTime, processed] = result.result as [string, bigint, bigint, boolean];
+        const [user, liskAmount, unlockTime, processed] = result.result as [string, bigint, bigint, boolean];
         
         if (!processed) {
           return {
             id: requestIds[index],
             user,
-            xfiAmount,
+            liskAmount,
             unlockTime,
             processed
           };
@@ -394,7 +394,7 @@ function RequestUnstakeForm({ onUpdate }: RequestUnstakeFormProps) {
 
   const { data: sbftBalance, refetch: refetchBalance } = useReadContract({
     address: sbFTTokenAddress,
-    abi: xfiTokenAbi,
+    abi: sLiskTokenAbi,
     functionName: "balanceOf",
     args: [address],
     query: {
@@ -466,7 +466,7 @@ function RequestUnstakeForm({ onUpdate }: RequestUnstakeFormProps) {
           <div>
             <p className="text-amber-200 text-sm font-medium mb-1">7-Day Waiting Period</p>
             <p className="text-amber-300/80 text-sm">
-              After requesting unstake, there&apos;s a 7-day waiting period before you can claim your XFI tokens.
+              After requesting unstake, there&apos;s a 7-day waiting period before you can claim your LSK tokens.
             </p>
           </div>
         </div>
@@ -661,7 +661,7 @@ function EmergencyUnstakeForm({ onUpdate }: EmergencyUnstakeFormProps) {
           <div className="bg-gray-800/50 rounded-xl p-4">
             <div className="flex justify-between items-center">
               <span className="text-gray-400">You&apos;ll receive approximately:</span>
-              <span className="text-xl font-bold text-green-400">{estimatedReceived} XFI</span>
+              <span className="text-xl font-bold text-green-400">{estimatedReceived} LSK</span>
             </div>
           </div>
         )}
@@ -694,11 +694,11 @@ function EmergencyUnstakeForm({ onUpdate }: EmergencyUnstakeFormProps) {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-400">Penalty ({penaltyPercentage}%):</span>
-                <span className="text-red-400 font-medium">-{(parseFloat(unstakeAmount || "0") * parseInt(penaltyRate) / 10000).toFixed(4)} XFI</span>
+                <span className="text-red-400 font-medium">-{(parseFloat(unstakeAmount || "0") * parseInt(penaltyRate) / 10000).toFixed(4)} LSK</span>
               </div>
               <div className="flex justify-between border-t border-gray-600 pt-3">
                 <span className="text-gray-300 font-medium">You&apos;ll receive:</span>
-                <span className="text-green-400 font-bold">{estimatedReceived} XFI</span>
+                <span className="text-green-400 font-bold">{estimatedReceived} LSK</span>
               </div>
             </div>
             
@@ -987,7 +987,7 @@ export default function DashboardPage() {
           <div>
             <p className="text-sm text-gray-400 mb-1">Current Exchange Rate</p>
             <p className="text-3xl font-bold text-purple-400">
-              1 sbFT = {currentExchangeRate} XFI
+              1 sbFT = {currentExchangeRate} LSK
             </p>
           </div>
           <div className="text-center">
@@ -1000,7 +1000,7 @@ export default function DashboardPage() {
               {sbftWalletBalanceFormatted} sbFT
             </p>
             <p className="text-lg text-green-300">
-              ≈ {userXFIValue} XFI
+              ≈ {userXFIValue} LSK
             </p>
           </div>
         </div>
@@ -1028,15 +1028,15 @@ export default function DashboardPage() {
         </h2>
         <div className="grid md:grid-cols-3 gap-6">
           <div className="bg-gradient-to-br from-blue-900/30 to-blue-800/30 rounded-xl p-6 border border-blue-500/30">
-            <p className="text-blue-200 text-sm mb-2 font-medium">Total XFI in Pool</p>
+            <p className="text-blue-200 text-sm mb-2 font-medium">Total LSK in Pool</p>
             <p className="text-3xl font-bold text-blue-400">{totalPoolXFI}</p>
-            <p className="text-blue-300 text-sm">XFI</p>
+            <p className="text-blue-300 text-sm">LSK</p>
             <p className="text-xs text-blue-400/60 mt-2">Backing all sbFT tokens</p>
           </div>
           <div className="bg-gradient-to-br from-amber-900/30 to-amber-800/30 rounded-xl p-6 border border-amber-500/30">
             <p className="text-amber-200 text-sm mb-2 font-medium">Pending Unstakes</p>
             <p className="text-3xl font-bold text-amber-400">{pendingUnstakes}</p>
-            <p className="text-amber-300 text-sm">XFI</p>
+            <p className="text-amber-300 text-sm">LSK</p>
             <p className="text-xs text-amber-400/60 mt-2">Reserved for unstaking queue</p>
           </div>
           <div className="bg-gradient-to-br from-green-900/30 to-green-800/30 rounded-xl p-6 border border-green-500/30">
@@ -1044,7 +1044,7 @@ export default function DashboardPage() {
             <p className="text-3xl font-bold text-green-400">
               {(parseFloat(totalPoolXFI) - parseFloat(pendingUnstakes)).toFixed(4)}
             </p>
-            <p className="text-green-300 text-sm">XFI</p>
+            <p className="text-green-300 text-sm">LSK</p>
             <p className="text-xs text-green-400/60 mt-2">Available for new unstakes</p>
           </div>
         </div>

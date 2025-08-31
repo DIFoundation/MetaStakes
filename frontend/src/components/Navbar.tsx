@@ -60,8 +60,8 @@ export default function Navbar() {
   ];
 
   const resourcesItems: NavItem[] = [
-    { href: "https://crossfi.org/", label: "Crossfi", external: true },
-    { href: "https://test.xfiscan.com/dashboard", label: "Explorer", external: true },
+    { href: "https://lisk.com/", label: "Crossfi", external: true },
+    { href: "https://sepolia-blockscout.lisk.com/", label: "Explorer", external: true },
     { href: "/contact-us", label: "Contact Us" },
   ];
 
@@ -79,7 +79,7 @@ export default function Navbar() {
         { href: "/", label: "Home" },
         { href: "https://www.investopedia.com/non-fungible-tokens-nft-5115211", label: "Explore NFTs", external: true },
         { href: "/how-it-works", label: "How It Works" },
-        { href: "https://github.com/DIFoundation/StakeAndBake/blob/main/README.md", label: "Docs", external: true },
+        { href: "https://github.com/DIFoundation/MetaStake/blob/main/README.md", label: "Docs", external: true },
       ];
 
   // Close menu on outside click
@@ -383,14 +383,14 @@ export default function Navbar() {
         </div>
       )}
 
-      <div className="w-full overflow-hidden bg-gray-100/20 rounded-md py-1 text-center">
+      {/* <div className="w-full overflow-hidden bg-gray-100/20 rounded-md py-1 text-center">
         <span className="mx-2 text-sm font-medium text-gray-300">
           You can get the custon xfi token through the faucet with the link: {" "}
           <Link href="https://xfi-faucet.vercel.app/" className="text-white">
             https://xfi-faucet.vercel.app/
           </Link>
         </span>
-      </div>
+      </div> */}
     </nav>
   );
 }
