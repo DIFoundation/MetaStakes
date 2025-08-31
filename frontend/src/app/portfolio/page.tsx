@@ -59,7 +59,7 @@ function TransactionRow({ transaction }: { transaction: any }) {
       </div>
       
       <Link
-        href={`https://test.xfiscan.com/tx/${transaction.hash}`}
+        href={`https://sepolia-blockscout.lisk.com/${transaction.hash}`}
         target="_blank"
         rel="noopener noreferrer"
         className="text-blue-400 hover:text-blue-300 transition-colors"
@@ -114,7 +114,7 @@ function NFTBanner({ nftData }: { nftData: any }) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
                 <div className="text-gray-300 text-sm">Total Revenue</div>
-                <div className="text-white text-xl font-bold">{nftData.totalRevenue} XFI</div>
+                <div className="text-white text-xl font-bold">{nftData.totalRevenue} LSK</div>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
                 <div className="text-gray-300 text-sm">Total sbFT Supply</div>
@@ -147,7 +147,7 @@ function UserStats({ nftData }: { nftData: any }) {
           <h3 className="text-gray-400 text-sm font-medium">Your Stake</h3>
           <DollarSign className="w-5 h-5 text-blue-400" />
         </div>
-        <div className="text-2xl font-bold text-white">{nftData.userStakeAmount} XFI</div>
+        <div className="text-2xl font-bold text-white">{nftData.userStakeAmount} LSK</div>
         <div className="text-sm text-gray-500 mt-1">Staked in protocol</div>
       </div>
       
@@ -165,7 +165,7 @@ function UserStats({ nftData }: { nftData: any }) {
           <h3 className="text-gray-400 text-sm font-medium">Pending Rewards</h3>
           <Clock className="w-5 h-5 text-green-400" />
         </div>
-        <div className="text-2xl font-bold text-white">{nftData.pendingRewards} XFI</div>
+        <div className="text-2xl font-bold text-white">{nftData.pendingRewards} LSK</div>
         <div className="text-sm text-gray-500 mt-1">
           {nftData.canClaim ? 'Available to claim' : 'Accumulating...'}
         </div>
@@ -212,7 +212,7 @@ export default function Portfolio() {
             </Link>
             <Link href="/stake">
               <button className="px-6 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium transition-colors">
-                Stake More XFI
+                Stake More LSK
               </button>
             </Link>
             <button 
