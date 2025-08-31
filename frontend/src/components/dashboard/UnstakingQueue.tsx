@@ -16,8 +16,8 @@ import DebugUnstaking from "@/components/DebugUnstaking";
 import {
   stakingContractAddress,
   stakingContractAbi,
-  xfiTokenAbi,
-  xfiTokenAddress,
+  sLiskTokenAbi,
+  sLiskTokenAddress,
   sbFTTokenAddress,
 } from "@/contractAddressAndABI";
 import { Abi, formatEther } from "viem";
@@ -397,19 +397,19 @@ export default function DashboardPage() {
     useTransactionHistory();
 
   const { data: xfiBalance } = useReadContract({
-    address: xfiTokenAddress,
-    abi: xfiTokenAbi,
+    address: sLiskTokenAddress,
+    abi: sLiskTokenAbi,
     functionName: "balanceOf",
     args: [address],
     query: {
-      enabled: Boolean(address && xfiTokenAddress),
+      enabled: Boolean(address && sLiskTokenAddress),
       refetchInterval: 5000,
     },
   });
 
   const { data: sbftWalletBalance } = useReadContract({
     address: sbFTTokenAddress,
-    abi: xfiTokenAbi,
+    abi: sLiskTokenAbi,
     functionName: "balanceOf",
     args: [address],
     query: {

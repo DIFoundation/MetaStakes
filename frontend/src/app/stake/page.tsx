@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt } from "wagmi";
 import { parseUnits, formatUnits } from "viem";
-import { stakingContractAbi, stakingContractAddress, xfiTokenAbi, xfiTokenAddress, sbFTTokenAddress } from "@/contractAddressAndABI";
+import { stakingContractAbi, stakingContractAddress, sLiskTokenAbi, sLiskTokenAddress, sbFTTokenAddress } from "@/contractAddressAndABI";
 import { Loader2, Clock, Coins, Gift, TrendingUp, CheckCircle, ArrowUpDown, Zap } from "lucide-react";
 
 export default function SimpleStakePage() {
@@ -16,7 +16,7 @@ export default function SimpleStakePage() {
 
   // const { data: balance } = useBalance({ address });
   const { data: tokenBalance } = useReadContract({
-    address: xfiTokenAddress,
+    address: sLiskTokenAddress,
     functionName: "balanceOf",
     args: [address],
     query: { enabled: !!address },
@@ -24,7 +24,7 @@ export default function SimpleStakePage() {
 
   const { data: sbftBalance } = useReadContract({
     address: sbFTTokenAddress,
-    abi: xfiTokenAbi,
+    abi: sLiskTokenAbi,
     functionName: "balanceOf",
     args: [address],
     query: { enabled: !!address },
@@ -61,8 +61,8 @@ export default function SimpleStakePage() {
   });
 
   const { data: allowance, refetch: refetchAllowance } = useReadContract({
-    address: xfiTokenAddress,
-    abi: xfiTokenAbi,
+    address: sLiskTokenAddress,
+    abi: sLiskTokenAbi,
     functionName: "allowance",
     args: [address, stakingContractAddress],
     query: { enabled: !!address },
@@ -137,8 +137,8 @@ export default function SimpleStakePage() {
       }
   
       approveWrite({
-        address: xfiTokenAddress,
-        abi: xfiTokenAbi,
+        address: sLiskTokenAddress,
+        abi: sLiskTokenAbi,
         functionName: "approve",
         args: [stakingContractAddress, value],
       });

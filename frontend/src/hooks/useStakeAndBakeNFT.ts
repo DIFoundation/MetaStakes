@@ -7,7 +7,7 @@ import {
   stakingContractAddress,
   stakingContractAbi,
   sbFTTokenAddress,
-  xfiTokenAbi,
+  sLiskTokenAbi,
   sbFTMarketplaceAddress,
   sbFTMarketplaceAbi,
 } from "@/contractAddressAndABI";
@@ -49,7 +49,7 @@ export function useStakeAndBakeNFT() {
   // Read user's sbFT balance
   const { data: sbftBalance } = useReadContract({
     address: sbFTTokenAddress,
-    abi: xfiTokenAbi,
+    abi: sLiskTokenAbi,
     functionName: "balanceOf",
     args: [address],
     query: {
@@ -96,7 +96,7 @@ export function useStakeAndBakeNFT() {
   // Read sbFT total supply directly from token contract
   const { data: sbftTotalSupply } = useReadContract({
     address: sbFTTokenAddress,
-    abi: xfiTokenAbi,
+    abi: sLiskTokenAbi,
     functionName: "totalSupply",
     query: {
       enabled: Boolean(sbFTTokenAddress),
