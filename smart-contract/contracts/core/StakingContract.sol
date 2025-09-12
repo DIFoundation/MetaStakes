@@ -25,14 +25,14 @@ interface IStakeAndBakeNFT {
  */
 contract StakingContract is Ownable, ReentrancyGuard {
     
-    IERC20 public xfiToken;
+    IERC20 public cSTTToken;
     ISbFTToken public sbftToken;
     IStakeAndBakeNFT public masterNFT;
     
     // Staking parameters
     uint256 public constant STAKING_FEE = 100; // 1% fee (100 basis points)
     uint256 public constant BASIS_POINTS = 10000;
-    uint256 public constant MIN_STAKE = 1e18; // Minimum 1 XFI
+    uint256 public constant MIN_STAKE = 1e18; // Minimum 1 STT
     
     // Unstaking parameters
     uint256 public unstakingDelay = 7 days; // Protocol-level unstaking delay
@@ -45,13 +45,13 @@ contract StakingContract is Ownable, ReentrancyGuard {
     uint256 public lastRewardUpdate;
     
     // Pool state
-    uint256 public totalXFIInPool; // Total XFI backing sbFT tokens
-    uint256 public totalPendingUnstakes; // XFI reserved for pending unstakes
+    uint256 public totalSTTInPool; // Total STT backing sbFT tokens
+    uint256 public totalPendingUnstakes; // STT reserved for pending unstakes
     
     // Unstaking queue
     struct UnstakeRequest {
         address user;
-        uint256 xfiAmount;
+        uint256 sttAmount;
         uint256 unlockTime;
         bool processed;
     }
@@ -72,35 +72,40 @@ contract StakingContract is Ownable, ReentrancyGuard {
     mapping(address => StakeInfo) public stakes; // Deprecated
     
     // Stats
-    uint256 public totalStaked; // Now represents totalXFIInPool
+    uint256 public totalStaked; // Now represents totalSTTInPool
     uint256 public totalFeesCollected;
     uint256 public minStake = MIN_STAKE;
     
     // Events
-    event Staked(address indexed user, uint256 xfiAmount, uint256 sbftAmount, uint256 fee, uint256 exchangeRate);
-    event UnstakeRequested(address indexed user, uint256 requestId, uint256 sbftAmount, uint256 xfiAmount, uint256 unlockTime);
-    event UnstakeProcessed(address indexed user, uint256 requestId, uint256 xfiAmount);
+    event Staked(address indexed user, uint256 sttAmount, uint256 sbftAmount, uint256 fee, uint256 exchangeRate);
+    event UnstakeRequested(address indexed user, uint256 requestId, uint256 sbftAmount, uint256 sttAmount, uint256 unlockTime);
+    event UnstakeProcessed(address indexed user, uint256 requestId, uint256 sttAmount);
     event UnstakeRequestCancelled(address indexed user, uint256 requestId, uint256 sbftAmount);
     event RewardsAccrued(uint256 rewardAmount, uint256 newExchangeRate);
     event ExchangeRateUpdated(uint256 newRate);
     event UnstakingDelayUpdated(uint256 newDelay);
     
     // Legacy events - keep for backwards compatibility
-    event Unstaked(address indexed user, uint256 xfiAmount, uint256 sbftAmount);
+    event Unstaked(address indexed user, uint256 sttAmount, uint256 sbftAmount);
     event RewardsClaimed(address indexed user, uint256 amount);
     event RewardsCompounded(address indexed user, uint256 amount);
     event FeeCollected(uint256 amount);
     event RewardRateUpdated(uint256 newRate);
     event MinStakeUpdated(uint256 newMinStake);
     
+    /**
+     * @dev Initialize the staking contract with token addresses
+     * @param _cSTTToken Address of the STT token contract
+     * @param _sbftToken Address of the sbFT token contract
+     */
     constructor(
-        address _xfiToken,
+        address _cSTTToken,
         address _sbftToken
     ) Ownable(msg.sender) {
-        require(_xfiToken != address(0), "Invalid XFI token");
+        require(_cSTTToken != address(0), "Invalid cSTT token");
         require(_sbftToken != address(0), "Invalid sbFT token");
         
-        xfiToken = IERC20(_xfiToken);
+        cSTTToken = IERC20(_cSTTToken);
         sbftToken = ISbFTToken(_sbftToken);
         lastRewardUpdate = block.timestamp;
     }
@@ -124,7 +129,7 @@ contract StakingContract is Ownable, ReentrancyGuard {
     }
     
     /**
-     * @dev Get current exchange rate (XFI per sbFT)
+     * @dev Get current exchange rate (STT per sbFT)
      * @return Exchange rate scaled by 1e18
      */
     function getExchangeRate() public view returns (uint256) {
@@ -135,50 +140,48 @@ contract StakingContract is Ownable, ReentrancyGuard {
         
         // Calculate time-based rewards that would be accrued
         uint256 timeElapsed = block.timestamp - lastRewardUpdate;
-        uint256 pendingRewards = (totalXFIInPool * annualRewardRate * timeElapsed) / 
+        uint256 pendingRewards = (totalSTTInPool * annualRewardRate * timeElapsed) / 
                                 (BASIS_POINTS * SECONDS_PER_YEAR);
         
-        uint256 totalValue = totalXFIInPool + pendingRewards;
+        uint256 totalValue = totalSTTInPool + pendingRewards;
         return (totalValue * 1e18) / sbftSupply;
     }
     
     /**
-     * @dev Stake XFI tokens to receive sbFT tokens at current exchange rate
+     * @dev Stake STT tokens to receive sbFT tokens at current exchange rate
      */
     function stake(uint256 amount) external nonReentrant {
         require(amount >= minStake, "Amount below minimum stake");
-        require(xfiToken.balanceOf(msg.sender) >= amount, "Insufficient XFI balance");
+        require(cSTTToken.balanceOf(msg.sender) >= amount, "Insufficient cSTT balance");
         
         // Update rewards before staking
         _accrueRewards();
         
-        // Calculate fee and net amount
-        uint256 fee = (amount * STAKING_FEE) / BASIS_POINTS;
-        uint256 netAmount = amount - fee;
+        // Calculate the amount of sbFT to mint based on current exchange rate
+        uint256 sbftAmount = (amount * 1e18) / getExchangeRate();
+        require(sbftAmount > 0, "Mint amount too small");
         
-        // Calculate sbFT amount based on current exchange rate
-        uint256 exchangeRate = getExchangeRate();
-        uint256 sbftAmount = (netAmount * 1e18) / exchangeRate;
-        
-        // Transfer XFI from user
-        require(xfiToken.transferFrom(msg.sender, address(this), amount), "Transfer failed");
-        
-        // Update pool state
-        totalXFIInPool += netAmount;
-        totalStaked = totalXFIInPool; // For backwards compatibility
-        totalFeesCollected += fee;
+        // Transfer STT tokens from user to this contract
+        require(cSTTToken.transferFrom(msg.sender, address(this), amount), "Transfer failed");
         
         // Mint sbFT tokens to user
         sbftToken.mint(msg.sender, sbftAmount);
         
-        // Send fee to Master NFT contract (if set)
-        if (address(masterNFT) != address(0) && fee > 0) {
-            require(xfiToken.transfer(address(masterNFT), fee), "Fee transfer failed");
-            masterNFT.distributeFees(fee);
+        // Update pool state
+        totalSTTInPool += amount;
+        
+        // Take fee if any (e.g., 1%)
+        if (STAKING_FEE > 0) {
+            uint256 fee = (amount * STAKING_FEE) / BASIS_POINTS;
+            if (fee > 0 && address(masterNFT) != address(0)) {
+                require(cSTTToken.transfer(address(masterNFT), fee), "Fee transfer failed");
+                masterNFT.distributeFees(fee);
+                amount -= fee; // Reduce the staked amount by fee
+            }
         }
         
-        emit Staked(msg.sender, amount, sbftAmount, fee, exchangeRate);
-        emit FeeCollected(fee);
+        emit Staked(msg.sender, amount, sbftAmount, 0, getExchangeRate());
+        emit FeeCollected(0);
     }
     
     /**
@@ -191,9 +194,9 @@ contract StakingContract is Ownable, ReentrancyGuard {
         // Update rewards before unstaking
         _accrueRewards();
         
-        // Calculate XFI amount based on current exchange rate
+        // Calculate STT amount based on current exchange rate
         uint256 exchangeRate = getExchangeRate();
-        uint256 xfiAmount = (sbftAmount * exchangeRate) / 1e18;
+        uint256 sttAmount = (sbftAmount * exchangeRate) / 1e18;
         
         // Burn sbFT tokens immediately
         sbftToken.burn(msg.sender, sbftAmount);
@@ -204,7 +207,7 @@ contract StakingContract is Ownable, ReentrancyGuard {
         
         unstakeRequests[requestId] = UnstakeRequest({
             user: msg.sender,
-            xfiAmount: xfiAmount,
+            sttAmount: sttAmount,
             unlockTime: unlockTime,
             processed: false
         });
@@ -212,11 +215,11 @@ contract StakingContract is Ownable, ReentrancyGuard {
         userUnstakeRequests[msg.sender].push(requestId);
         
         // Update pool state
-        totalXFIInPool -= xfiAmount;
-        totalPendingUnstakes += xfiAmount;
-        totalStaked = totalXFIInPool; // For backwards compatibility
+        totalSTTInPool -= sttAmount;
+        totalPendingUnstakes += sttAmount;
+        totalStaked = totalSTTInPool; // For backwards compatibility
         
-        emit UnstakeRequested(msg.sender, requestId, sbftAmount, xfiAmount, unlockTime);
+        emit UnstakeRequested(msg.sender, requestId, sbftAmount, sttAmount, unlockTime);
     }
     
     /**
@@ -231,13 +234,13 @@ contract StakingContract is Ownable, ReentrancyGuard {
         require(block.timestamp >= request.unlockTime, "Still locked");
         
         request.processed = true;
-        totalPendingUnstakes -= request.xfiAmount;
+        totalPendingUnstakes -= request.sttAmount;
         
-        // Transfer XFI to user
-        require(xfiToken.transfer(msg.sender, request.xfiAmount), "Transfer failed");
+        // Transfer STT to user
+        require(cSTTToken.transfer(msg.sender, request.sttAmount), "Transfer failed");
         
-        emit UnstakeProcessed(msg.sender, requestId, request.xfiAmount);
-        emit Unstaked(msg.sender, request.xfiAmount, 0); // Legacy event
+        emit UnstakeProcessed(msg.sender, requestId, request.sttAmount);
+        emit Unstaked(msg.sender, request.sttAmount, 0); // Legacy event
     }
     
     /**
@@ -255,15 +258,15 @@ contract StakingContract is Ownable, ReentrancyGuard {
         
         // Calculate sbFT amount to return based on current exchange rate
         uint256 exchangeRate = getExchangeRate();
-        uint256 sbftAmount = (request.xfiAmount * 1e18) / exchangeRate;
+        uint256 sbftAmount = (request.sttAmount * 1e18) / exchangeRate;
         
         // Mark as processed
         request.processed = true;
         
         // Update pool state
-        totalXFIInPool += request.xfiAmount;
-        totalPendingUnstakes -= request.xfiAmount;
-        totalStaked = totalXFIInPool; // For backwards compatibility
+        totalSTTInPool += request.sttAmount;
+        totalPendingUnstakes -= request.sttAmount;
+        totalStaked = totalSTTInPool; // For backwards compatibility
         
         // Mint sbFT tokens back to user
         sbftToken.mint(msg.sender, sbftAmount);
@@ -276,34 +279,33 @@ contract StakingContract is Ownable, ReentrancyGuard {
      */
     function emergencyUnstake(uint256 sbftAmount, uint256 penaltyRate) external nonReentrant {
         require(sbftAmount > 0, "Amount must be greater than 0");
-        require(sbftToken.balanceOf(msg.sender) >= sbftAmount, "Insufficient sbFT balance");
         require(penaltyRate <= 5000, "Penalty cannot exceed 50%");
         
         // Update rewards before unstaking
         _accrueRewards();
         
-        // Calculate XFI amount based on current exchange rate
+        // Calculate STT amount based on current exchange rate
         uint256 exchangeRate = getExchangeRate();
-        uint256 xfiAmount = (sbftAmount * exchangeRate) / 1e18;
+        uint256 sttAmount = (sbftAmount * exchangeRate) / 1e18;
         
         // Apply penalty
-        uint256 penalty = (xfiAmount * penaltyRate) / BASIS_POINTS;
-        uint256 netAmount = xfiAmount - penalty;
+        uint256 penalty = (sttAmount * penaltyRate) / BASIS_POINTS;
+        uint256 netAmount = sttAmount - penalty;
         
         // Burn sbFT tokens
         sbftToken.burn(msg.sender, sbftAmount);
         
         // Update pool state
-        totalXFIInPool -= xfiAmount;
-        totalStaked = totalXFIInPool; // For backwards compatibility
+        totalSTTInPool -= sttAmount;
+        totalStaked = totalSTTInPool; // For backwards compatibility
         totalFeesCollected += penalty;
         
         // Transfer net amount to user
-        require(xfiToken.transfer(msg.sender, netAmount), "Transfer failed");
+        require(cSTTToken.transfer(msg.sender, netAmount), "Transfer failed");
         
         // Send penalty to Master NFT contract (if set)
         if (address(masterNFT) != address(0) && penalty > 0) {
-            require(xfiToken.transfer(address(masterNFT), penalty), "Penalty transfer failed");
+            require(cSTTToken.transfer(address(masterNFT), penalty), "Penalty transfer failed");
             masterNFT.distributeFees(penalty);
         }
         
@@ -315,7 +317,7 @@ contract StakingContract is Ownable, ReentrancyGuard {
      * @dev Accrue rewards to the pool (increases exchange rate)
      */
     function _accrueRewards() internal {
-        if (totalXFIInPool == 0) {
+        if (totalSTTInPool == 0) {
             lastRewardUpdate = block.timestamp;
             return;
         }
@@ -323,12 +325,12 @@ contract StakingContract is Ownable, ReentrancyGuard {
         uint256 timeElapsed = block.timestamp - lastRewardUpdate;
         if (timeElapsed == 0) return;
         
-        uint256 rewardAmount = (totalXFIInPool * annualRewardRate * timeElapsed) / 
+        uint256 rewardAmount = (totalSTTInPool * annualRewardRate * timeElapsed) / 
                               (BASIS_POINTS * SECONDS_PER_YEAR);
         
         if (rewardAmount > 0) {
-            totalXFIInPool += rewardAmount;
-            totalStaked = totalXFIInPool; // For backwards compatibility
+            totalSTTInPool += rewardAmount;
+            totalStaked = totalSTTInPool; // For backwards compatibility
             
             emit RewardsAccrued(rewardAmount, getExchangeRate());
         }
@@ -367,10 +369,10 @@ contract StakingContract is Ownable, ReentrancyGuard {
     }
     
     /**
-     * @dev Get available XFI for unstaking
+     * @dev Get available STT for unstaking
      */
-    function getAvailableXFI() external view returns (uint256) {
-        uint256 totalBalance = xfiToken.balanceOf(address(this));
+    function getAvailableSTT() external view returns (uint256) {
+        uint256 totalBalance = cSTTToken.balanceOf(address(this));
         return totalBalance > totalPendingUnstakes ? totalBalance - totalPendingUnstakes : 0;
     }
     
@@ -396,7 +398,7 @@ contract StakingContract is Ownable, ReentrancyGuard {
     }
     
     function getContractStats() external view returns (uint256, uint256, uint256) {
-        return (totalXFIInPool, totalFeesCollected, annualRewardRate);
+        return (totalSTTInPool, totalFeesCollected, annualRewardRate);
     }
     
     // Deprecated functions - return empty/default values
@@ -428,7 +430,33 @@ contract StakingContract is Ownable, ReentrancyGuard {
      * @dev Emergency withdraw function (only owner)
      */
     function emergencyWithdraw() external onlyOwner {
-        uint256 balance = xfiToken.balanceOf(address(this));
-        require(xfiToken.transfer(owner(), balance), "Emergency withdraw failed");
+        uint256 balance = cSTTToken.balanceOf(address(this));
+        require(cSTTToken.transfer(owner(), balance), "Emergency withdraw failed");
+    }
+    
+    /**
+     * @dev Emergency withdraw of any tokens sent to this contract (except STT and sbFT)
+     */
+    function emergencyWithdraw(address token) external onlyOwner {
+        require(token != address(cSTTToken) && token != address(sbftToken), "Cannot withdraw staking tokens");
+        IERC20 tokenContract = IERC20(token);
+        uint256 balance = tokenContract.balanceOf(address(this));
+        require(balance > 0, "No tokens to withdraw");
+        require(tokenContract.transfer(owner(), balance), "Transfer failed");
+    }
+    
+    /**
+     * @dev Emergency withdraw of STT tokens (only in case of emergency)
+     */
+    function emergencyWithdrawSTT() external onlyOwner {
+        uint256 balance = cSTTToken.balanceOf(address(this));
+        require(cSTTToken.transfer(owner(), balance), "Emergency withdraw failed");
+    }
+    
+    /**
+     * @dev Get pool balance
+     */
+    function getPoolBalance() public view returns (uint256) {
+        return cSTTToken.balanceOf(address(this));
     }
 }
