@@ -5,14 +5,16 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * @title XFIToken
- * @dev Standard ERC20 token for Cross Finance - used for staking in Stake and Bake protocol
+ * @title STTToken
+ * @dev Standard ERC20 token for Somnia Token - used for staking in Stake and Bake protocol
  */
-contract sLiskToken is ERC20, Ownable {
+contract cSTTToken is ERC20, Ownable {
     
     // Events for subgraph
     event TokensMinted(address indexed to, uint256 amount);
     event TokensBurned(address indexed from, uint256 amount);
+    
+    mapping(address => uint256) public lastFaucetTime;
     
     constructor(
         string memory name,
@@ -31,6 +33,12 @@ contract sLiskToken is ERC20, Ownable {
     function mint(address to, uint256 amount) external onlyOwner {
         _mint(to, amount);
         emit TokensMinted(to, amount);
+    }
+
+    function faucet(address to) external {
+        require(block.timestamp - lastFaucetTime[msg.sender] >= 1 hours, "You can only faucet once per hour");
+        _mint(to, 100);
+        lastFaucetTime[msg.sender] = block.timestamp;
     }
     
     /**

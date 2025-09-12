@@ -5,10 +5,10 @@ const MetaStakeModule = buildModule("MetaStakeModule", (m) => {
   // Get the deployer account
   // const deployer = m.getAccount(0);
 
-  // Deploy sLiskToken (assuming it's the staking token, like XFI)
-  const sLiskToken = m.contract("sLiskToken", [
-    "sLisk Token",
-    "SLISK",
+  // Deploy cSTTToken (assuming it's the staking token, like STT)
+  const cSTTToken = m.contract("cSTTToken", [
+    "cSTT Token",
+    "cSTT",
     m.getParameter("initialSupply", 1_000_000_000),
   ]);
 
@@ -23,7 +23,7 @@ const MetaStakeModule = buildModule("MetaStakeModule", (m) => {
 
   // Deploy StakingContract
   const stakingContract = m.contract("StakingContract", [
-    sLiskToken,
+    cSTTToken,
     sbFTToken,
   ]);
 
@@ -31,7 +31,7 @@ const MetaStakeModule = buildModule("MetaStakeModule", (m) => {
   const stakeAndBakeNFT = m.contract("StakeAndBakeNFT", [
     "Stake and Bake NFT",
     "SBNFT",
-    sLiskToken,
+    cSTTToken,
     sbFTToken,
     m.getParameter("tokenURI", "https://ipfs.io/ipfs/bafkreibki2gkw3mqs6emnoqlddxsobkhg5ntlet3273izcn6hlt5xo6odu"),
   ]);
@@ -62,7 +62,7 @@ const MetaStakeModule = buildModule("MetaStakeModule", (m) => {
 
 
   return {
-    sLiskToken,
+    cSTTToken,
     mockUSDC,
     sbFTToken,
     stakingContract,
