@@ -1,14 +1,16 @@
-const StakingContract = ""
+const StakingContract = "0xa7F29175C9B1DB297643a41F88BA801f693cf148"
 
-const SbFTMarketplace = ""
+const SbFTMarketplace = "0x03597D130387702B29B21155fAA80C3A7d40FC3d"
 
-const cSTTToken = ""
+const cSTTToken = "0x02ea74b37EB21a0DF7Ab06bBCA892Ec0a1135226"
 
-const MockUSDC = ""
+const MockUSDC = "0x4106DC25990802873089E6138DE833F6F1B68AB7"
 
-const StakeAndBakeNFT = ""
+const StakeAndBakeNFT = "0x2dCe6F795565CeC6FeF0C29DdF4D0787b1d929eB"
 
-const SbFTToken = ""
+const SbFTToken = "0x79e6a4c5688f76C3CafCf6bcDA8341A0f5287423"
 
-const VotingContract = ""
+const VotingContract = "0xBe2F6e9D62ebD723416E9B262F1834572F1572FF"
 
+const SbFTBridgeFactory = "0x4Ff5d2370ff0E2efb3E7dEc6e40ae3bA36967AC4"
+const WrappedSbFTToken = "0xe616132Bc43474DBb5968ad4438DAC1b0Ad70803"

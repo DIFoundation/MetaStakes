@@ -75,3 +75,6 @@ const MetaStakeModule = buildModule("MetaStakeModule", (m) => {
 });
 
 export default MetaStakeModule;
+
+
+// npx hardhat ignition deploy ignition/modules/MetaStake.ts --network somnia_testnet --verify
