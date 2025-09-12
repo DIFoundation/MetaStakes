@@ -95,7 +95,7 @@ Fallback Management: Graceful handling of emergency withdrawals or force closure
 
 Twitter/X: @Real_Adeniran
 
-GitHub: github.com/DIFoundation/MetaStake
+GitHub: [https://github.com/DIFoundation/MetaStakes]
 
 Support: adeniranibrahim165@gmail.com
 
