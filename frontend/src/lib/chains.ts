@@ -1,6 +1,6 @@
 import { Chain } from 'viem';
 
-export const xfiTestnet = {
+export const liskTestnet = {
   id: 4202,
   name: 'Lisk Sepolia Testnet',
   nativeCurrency: {

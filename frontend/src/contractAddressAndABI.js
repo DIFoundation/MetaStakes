@@ -5084,13 +5084,3 @@ export const VotingAbi = [
     }
   ]
 
-// const sLiskToken = "0xc8E1f3D658775c603a0d2E7e9fc59578f546B0f6"
-// const SbFTToken = "0xa4B561bFD5b844Eb440caD3216531421AC023a07"
-// const MockUSDC = "0xDBBef55Cf2F58A7e6D50c3c5e2a710d91C3FEF89"
-// const StakeAndBakeNFT = "0xC1CD2262F36c4cba9a2B2807Deb0726A98bFC297"
-// const StakingContract = "0x48536305CA702A54985f7d6C3c62093FE41C7194"
-// const SbFTMarketplace = "0xFd846b25aeC496fEc1C1D2ED29D98Afd7366F17f"
-// const VotingContract = "0xED1eC459cfCE17C5d8eb8B731bc9b94FDc170a6f"
-
-// SbFTBridgeFactory - 0xc1D84Fac7D54F0A7775A802327794A9fC5cc77cE
-// WrappedSbFTToken - 0x9960C3E4f33642745358a75EAc6ab7FD026e3a9d

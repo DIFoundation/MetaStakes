@@ -47,32 +47,32 @@ export default function Home() {
         {/* Background Image Layer */}
         <div
           className="absolute inset-0 bg-center bg-no-repeat bg-cover rounded-lg"
-          style={{ backgroundImage: "url('/xfi.png')" }}
+          style={{ backgroundImage: "url('/lsk.jpg')" }}
         />
 
         {/* Overlay Content */}
-        <div className="relative z-10 backdrop-blur-xs p-8 sm:p-16 rounded-xl text-white text-center">
+        <div className="relative z-10 backdrop-blur-xs p-8 sm:p-16 rounded-xl text-black text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-            Stake XFI Token, Earn sbFTs
+            Stake Lisk Token, Earn sbFTs
           </h1>
-          <p className="max-w-2xl mx-auto mb-8 text-gray-300">
-            Participate in the Cross Finance ecosystem by staking your XFI token
+          <p className="max-w-2xl mx-auto mb-8 text-gray-900">
+            Participate in the Lisk ecosystem by staking your LSK token
             and receive sbFT as fractional NFTs (fNFTs) representing your stake.
             Sell portions of your sbFTs and earn rewards based on your retained
             share at the end of the staking period.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <button
-              className="bg-purple-600 px-6 py-2 rounded hover:bg-purple-700 transition flex flex-row items-center gap-2 justify-center"
+              className="bg-purple-800 px-6 py-2 text-gray-300 rounded hover:bg-purple-700 transition flex flex-row items-center gap-2 justify-center"
               onClick={() => router.push("/dashboard")}
             >
               Get Started <Link className="text-purple-300 w-6 h-6" />
             </button>
             <button
-              className="bg-purple-500/40 px-6 py-2 rounded hover:bg-purple-500/60 transition flex flex-row items-center gap-2 justify-center"
+              className="bg-purple-500/90 px-6 py-2 rounded hover:bg-purple-500/60 transition flex flex-row items-center gap-2 justify-center"
               onClick={() =>
                 window.open(
-                  "https://github.com/DIFoundation/StakeAndBake/blob/main/README.md",
+                  "https://github.com/DIFoundation/MetaStake/blob/main/README.md",
                   "_blank"
                 )
               }
@@ -82,14 +82,14 @@ export default function Home() {
           </div>
 
           <div className="mt-12 text-center">
-            <p className="text-sm text-gray-400 mb-2">
+            <p className="text-sm text-gray-700 mb-2">
               {isCancelled
                 ? "Auto redirect cancelled."
                 : `You will be automatically redirected to the dashboard in ${timeLeft} seconds...`}
             </p>
             {!isCancelled && (
               <button
-                className="bg-white text-gray-900 px-3 py-1 text-sm rounded border border-gray-600 hover:bg-purple-300 transition"
+                className="bg-gray-500 text-gray-900 px-3 py-1 text-sm rounded border border-gray-600 hover:bg-purple-300 transition"
                 onClick={handleCancel}
               >
                 Cancel Auto Redirect
@@ -103,7 +103,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Key Features</h2>
           <p className="text-gray-400 mb-12">
-            Explore the benefits of staking with Cross Finance and earning
+            Explore the benefits of staking with Lisk by earning
             fNFTs.
           </p>
 
@@ -112,7 +112,7 @@ export default function Home() {
               <Repeat className="text-purple-400 w-8 h-8 mb-4" />
               <h3 className="font-semibold text-lg mb-2">Flexible Staking</h3>
               <p className="text-gray-400 text-sm">
-                Stake either XFI and receive sbFTs representing your stake,
+                Stake your LSK and receive sbFTs representing your stake,
                 allowing for flexible participation in the ecosystem.
               </p>
             </div>

@@ -130,7 +130,7 @@ export default function TransactionHistoryTable({
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-300 font-mono">
-                    {tx.amount} {tx.type === "Claim" ? "XFI" : "XFI"}
+                    {tx.amount} {tx.type === "Claim" ? "LSK" : "LSK"}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-400">
                     <div>
@@ -147,7 +147,7 @@ export default function TransactionHistoryTable({
                   </td>
                   <td className="px-6 py-4 text-right text-sm font-medium">
                     <a 
-                      href={`https://explorer.xinfin.network/tx/${tx.id}`}
+                      href={`https://sepolia-blockscout.lisk.com/address/${tx.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-primary hover:text-purple-300 transition"

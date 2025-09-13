@@ -1,10 +1,11 @@
 'use client';
 
+// import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { getDefaultConfig, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
-import { xfiTestnet } from '@/lib/chains';
+import { liskTestnet } from '@/lib/chains';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -13,7 +14,7 @@ const queryClient = new QueryClient();
 const config = getDefaultConfig({
   appName: 'Stake & Bake',
   projectId: 'stake-and-bake-app',
-  chains: [xfiTestnet],
+  chains: [liskTestnet],
   ssr: true,
 });
 

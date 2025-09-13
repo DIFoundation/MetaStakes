@@ -31,7 +31,7 @@ export default function BridgePage() {
   }, []);
 
   const chains = [
-    { id: 'crossfi', name: 'CrossFi', icon: '⚡', color: 'from-purple-500 to-blue-500' },
+    { id: 'crossfi', name: 'Lisk', icon: '⚡', color: 'from-purple-500 to-blue-500' },
     { id: 'ethereum', name: 'Ethereum', icon: '♦️', color: 'from-blue-500 to-cyan-500' },
     { id: 'arbitrum', name: 'Arbitrum', icon: '🔷', color: 'from-cyan-500 to-teal-500' },
     { id: 'polygon', name: 'Polygon', icon: '🟣', color: 'from-purple-500 to-pink-500' },
@@ -131,7 +131,7 @@ export default function BridgePage() {
                         <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center text-sm">
                           ⚡
                         </div>
-                        <span className="font-medium">CrossFi Testnet</span>
+                        <span className="font-medium">Lisk Testnet</span>
                       </div>
                       <ChevronDown className="w-5 h-5 text-gray-400" />
                     </div>

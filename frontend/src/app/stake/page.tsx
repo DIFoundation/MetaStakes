@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt } from "wagmi";
 import { parseUnits, formatUnits } from "viem";
-import { stakingContractAbi, stakingContractAddress, xfiTokenAbi, xfiTokenAddress, sbFTTokenAddress } from "@/contractAddressAndABI";
+import { stakingContractAbi, stakingContractAddress, sLiskTokenAbi, sLiskTokenAddress, sbFTTokenAddress } from "@/contractAddressAndABI";
 import { Loader2, Clock, Coins, Gift, TrendingUp, CheckCircle, ArrowUpDown, Zap } from "lucide-react";
 
 export default function SimpleStakePage() {
@@ -16,7 +16,7 @@ export default function SimpleStakePage() {
 
   // const { data: balance } = useBalance({ address });
   const { data: tokenBalance } = useReadContract({
-    address: xfiTokenAddress,
+    address: sLiskTokenAddress,
     functionName: "balanceOf",
     args: [address],
     query: { enabled: !!address },
@@ -24,7 +24,7 @@ export default function SimpleStakePage() {
 
   const { data: sbftBalance } = useReadContract({
     address: sbFTTokenAddress,
-    abi: xfiTokenAbi,
+    abi: sLiskTokenAbi,
     functionName: "balanceOf",
     args: [address],
     query: { enabled: !!address },
@@ -39,7 +39,7 @@ export default function SimpleStakePage() {
   });
 
   // Get pool statistics
-  const { data: totalXFIInPool } = useReadContract({
+  const { data: totalLSKInPool } = useReadContract({
     address: stakingContractAddress,
     abi: stakingContractAbi,
     functionName: "totalXFIInPool",
@@ -61,8 +61,8 @@ export default function SimpleStakePage() {
   });
 
   const { data: allowance, refetch: refetchAllowance } = useReadContract({
-    address: xfiTokenAddress,
-    abi: xfiTokenAbi,
+    address: sLiskTokenAddress,
+    abi: sLiskTokenAbi,
     functionName: "allowance",
     args: [address, stakingContractAddress],
     query: { enabled: !!address },
@@ -72,7 +72,7 @@ export default function SimpleStakePage() {
   const sbftBalanceOf: bigint = (sbftBalance as bigint) ?? 0n;
   const allowanceData: bigint = (allowance as bigint) ?? 0n;
   const exchangeRateData: bigint = (exchangeRate as bigint) ?? 1000000000000000000n; // 1e18
-  const totalPoolXFI: bigint = (totalXFIInPool as bigint) ?? 0n;
+  const totalPoolLSK: bigint = (totalLSKInPool as bigint) ?? 0n;
   const pendingUnstakes: bigint = (totalPendingUnstakes as bigint) ?? 0n;
   const delaySeconds: bigint = (unstakingDelay as bigint) ?? 604800n; // 7 days
 
@@ -121,24 +121,24 @@ export default function SimpleStakePage() {
     try {
       const value = parseUnits(amount, 18);
       
-      // Check minimum stake requirement (1 XFI)
+      // Check minimum stake requirement (1 LSK)
       const minStakeAmount = parseUnits("1", 18);
       if (value < minStakeAmount) {
-        setError("Minimum stake is 1 XFI");
-        toast.error("Minimum stake is 1 XFI");
+        setError("Minimum stake is 1 LSK");
+        toast.error("Minimum stake is 1 LSK");
         return;
       }
   
       // Check user balance
       if (value > balanceOf) {
-        setError("Insufficient XFI balance");
-        toast.error("Insufficient XFI balance");
+        setError("Insufficient LSK balance");
+        toast.error("Insufficient LSK balance");
         return;
       }
   
       approveWrite({
-        address: xfiTokenAddress,
-        abi: xfiTokenAbi,
+        address: sLiskTokenAddress,
+        abi: sLiskTokenAbi,
         functionName: "approve",
         args: [stakingContractAddress, value],
       });
@@ -162,18 +162,18 @@ export default function SimpleStakePage() {
     try {
       const value = parseUnits(amount, 18);
       
-      // Check minimum stake requirement (1 XFI)
+      // Check minimum stake requirement (1 LSK)
       const minStakeAmount = parseUnits("1", 18);
       if (value < minStakeAmount) {
-        setError("Minimum stake is 1 XFI");
-        toast.error("Minimum stake is 1 XFI");
+        setError("Minimum stake is 1 LSK");
+        toast.error("Minimum stake is 1 LSK");
         return;
       }
   
       // Check user balance
       if (value > balanceOf) {
-        setError("Insufficient XFI balance");
-        toast.error("Insufficient XFI balance");
+        setError("Insufficient LSK balance");
+        toast.error("Insufficient LSK balance");
         return;
       }
   
@@ -202,9 +202,9 @@ export default function SimpleStakePage() {
   const calculateExpectedSbFT = () => {
     if (!amount || !exchangeRateData) return "0";
     try {
-      const xfiAmount = parseUnits(amount, 18);
-      const fee = xfiAmount / 100n; // 1% fee
-      const netAmount = xfiAmount - fee;
+      const LSKAmount = parseUnits(amount, 18);
+      const fee = LSKAmount / 100n; // 1% fee
+      const netAmount = LSKAmount - fee;
       const sbftAmount = (netAmount * 1000000000000000000n) / exchangeRateData;
       return formatUnits(sbftAmount, 18);
     } catch {
@@ -212,12 +212,12 @@ export default function SimpleStakePage() {
     }
   };
 
-  // Calculate XFI value of user's sbFT tokens
+  // Calculate LSK value of user's sbFT tokens
   const calculateSbFTValue = () => {
     if (!sbftBalanceOf || !exchangeRateData) return "0";
     try {
-      const xfiValue = (sbftBalanceOf * exchangeRateData) / 1000000000000000000n;
-      return formatUnits(xfiValue, 18);
+      const LSKValue = (sbftBalanceOf * exchangeRateData) / 1000000000000000000n;
+      return formatUnits(LSKValue, 18);
     } catch {
       return "0";
     }
@@ -235,10 +235,10 @@ export default function SimpleStakePage() {
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="text-center mb-12 pt-20">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Liquid Stake XFI Token, Earn sbFTs
+            Liquid Stake LSK Token, Earn sbFTs
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Stake XFI tokens and receive tradeable sbFT tokens that appreciate with staking rewards
+            Stake LSK tokens and receive tradeable sbFT tokens that appreciate with staking rewards
           </p>
         </div>
 
@@ -248,7 +248,7 @@ export default function SimpleStakePage() {
             <div className="bg-[#27272A] border border-[#3F3F46] rounded-xl p-8 hover:shadow-lg transition">
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
                 <Coins className="text-purple-400" />
-                Liquid Stake XFI
+                Liquid Stake LSK
               </h2>
 
               <div className="space-y-6">
@@ -259,7 +259,7 @@ export default function SimpleStakePage() {
                     <ArrowUpDown className="h-4 w-4 text-purple-400" />
                   </div>
                   <p className="text-xl font-bold text-purple-400">
-                    1 sbFT = {formatUnits(exchangeRateData, 18)} XFI
+                    1 sbFT = {formatUnits(exchangeRateData, 18)} LSK
                   </p>
                   <p className="text-xs text-gray-500 mt-1">
                     Rate increases as rewards accrue to the global pool
@@ -269,9 +269,9 @@ export default function SimpleStakePage() {
                 {/* Wallet Balances */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-[#1A1A1A] rounded-lg p-4 border border-[#3F3F46]">
-                    <p className="text-sm text-gray-400 mb-2">XFI Balance</p>
+                    <p className="text-sm text-gray-400 mb-2">LSK Balance</p>
                     <p className="text-lg font-bold text-white">
-                      {tokenBalance ? formatUnits(balanceOf, 18) : "0"} XFI
+                      {tokenBalance ? formatUnits(balanceOf, 18) : "0"} LSK
                     </p>
                   </div>
                   <div className="bg-[#1A1A1A] rounded-lg p-4 border border-[#3F3F46]">
@@ -280,7 +280,7 @@ export default function SimpleStakePage() {
                       {sbftBalance ? formatUnits(sbftBalanceOf, 18) : "0"} sbFT
                     </p>
                     <p className="text-xs text-gray-500">
-                      ≈ {calculateSbFTValue()} XFI value
+                      ≈ {calculateSbFTValue()} LSK value
                     </p>
                   </div>
                 </div>
@@ -292,7 +292,7 @@ export default function SimpleStakePage() {
                   <input
                     type="number"
                     className="w-full p-4 rounded-lg bg-[#1A1A1A] border border-[#3F3F46] text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="Enter XFI amount"
+                    placeholder="Enter LSK amount"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                   />
@@ -354,12 +354,12 @@ export default function SimpleStakePage() {
                   <h4 className="text-sm font-medium text-blue-300 mb-3">Global Pool Statistics</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Total XFI in Pool:</span>
-                      <span className="text-white">{formatUnits(totalPoolXFI, 18)} XFI</span>
+                      <span className="text-gray-400">Total LSK in Pool:</span>
+                      <span className="text-white">{formatUnits(totalPoolLSK, 18)} LSK</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-400">Pending Unstakes:</span>
-                      <span className="text-yellow-400">{formatUnits(pendingUnstakes, 18)} XFI</span>
+                      <span className="text-yellow-400">{formatUnits(pendingUnstakes, 18)} LSK</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-400">Unstaking Delay:</span>
@@ -403,9 +403,9 @@ export default function SimpleStakePage() {
                     <Coins className="h-4 w-4" />
                   </div>
                   <div>
-                    <h4 className="font-semibold">1. Stake XFI</h4>
+                    <h4 className="font-semibold">1. Stake LSK</h4>
                     <p className="text-gray-400 text-sm">
-                      Deposit XFI into the global pool. Get sbFT tokens at current exchange rate.
+                      Deposit LSK into the global pool. Get sbFT tokens at current exchange rate.
                     </p>
                   </div>
                 </div>
@@ -429,7 +429,7 @@ export default function SimpleStakePage() {
                   <div>
                     <h4 className="font-semibold">3. Free Trading</h4>
                     <p className="text-gray-400 text-sm">
-                      Trade sbFT tokens on marketplace. Buyers get claim to underlying XFI.
+                      Trade sbFT tokens on marketplace. Buyers get claim to underlying LSK.
                     </p>
                   </div>
                 </div>
@@ -441,7 +441,7 @@ export default function SimpleStakePage() {
                   <div>
                     <h4 className="font-semibold">4. Unstaking Queue</h4>
                     <p className="text-gray-400 text-sm">
-                      Request unstaking → Wait {formatDelay(delaySeconds)} → Get XFI back at current rate.
+                      Request unstaking → Wait {formatDelay(delaySeconds)} → Get LSK back at current rate.
                     </p>
                   </div>
                 </div>
@@ -466,7 +466,7 @@ export default function SimpleStakePage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-purple-400" />
-                  <span className="text-gray-300">Anyone can unstake sbFT for XFI</span>
+                  <span className="text-gray-300">Anyone can unstake sbFT for LSK</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Zap className="h-4 w-4 text-yellow-400" />

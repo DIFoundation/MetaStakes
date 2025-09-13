@@ -1,8 +1,10 @@
 import type { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import "@nomicfoundation/hardhat-network-helpers";
 import { vars } from "hardhat/config";
 
-const PRIVATE_KEY = vars.get("PRIVATE_KEY");
+const PRIVATE_KEY = vars.get("PRIVATE_KEY_2");
+const API_KEY = vars.get("ETHERSCAN_API_KEY"); // from etherscan
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -12,32 +14,32 @@ const config: HardhatUserConfig = {
         enabled: true,
         runs: 200,
       },
+      viaIR: true, // <--- This enables the Yul Intermediate Representation
     },
   },
   networks: {
-    "lisk-sepolia": {
-      url: "https://rpc.sepolia-api.lisk.com",
-      accounts: [PRIVATE_KEY]
+    somnia_testnet: {
+      url: "https://dream-rpc.somnia.network",
+      accounts: [PRIVATE_KEY],
     },
   },
   etherscan: {
-    // Use "123" as a placeholder, because Blockscout doesn't need a real API key, and Hardhat will complain if this property isn't set.
     apiKey: {
-      "lisk-sepolia": "123"
+      somnia_testnet: API_KEY,
     },
     customChains: [
       {
-          network: "lisk-sepolia",
-          chainId: 4202,
-          urls: {
-              apiURL: "https://sepolia-blockscout.lisk.com/api",
-              browserURL: "https://sepolia-blockscout.lisk.com"
-          }
+        network: "somnia_testnet",
+        chainId: 50312,
+        urls: {
+          apiURL: "https://shannon-explorer.somnia.network/api",
+          browserURL: "https://shannon-explorer.somnia.network",
+        }
       }
-    ]
+    ],
   },
   sourcify: {
-    enabled: false
+    enabled: false,
   },
 };
 
