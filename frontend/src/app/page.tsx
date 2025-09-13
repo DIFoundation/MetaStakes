@@ -47,15 +47,15 @@ export default function Home() {
         {/* Background Image Layer */}
         <div
           className="absolute inset-0 bg-center bg-no-repeat bg-cover rounded-lg"
-          style={{ backgroundImage: "url('/lsk.jpg')" }}
+          style={{ backgroundImage: "url('/somnia.png')" }}
         />
 
         {/* Overlay Content */}
-        <div className="relative z-10 backdrop-blur-xs p-8 sm:p-16 rounded-xl text-black text-center">
+        <div className="relative z-10 backdrop-blur-xs bg-black/50 p-8 sm:p-16 rounded-xl text-white text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
             Stake Lisk Token, Earn sbFTs
           </h1>
-          <p className="max-w-2xl mx-auto mb-8 text-gray-900">
+          <p className="max-w-2xl mx-auto mb-8 text-gray-200">
             Participate in the Lisk ecosystem by staking your LSK token
             and receive sbFT as fractional NFTs (fNFTs) representing your stake.
             Sell portions of your sbFTs and earn rewards based on your retained
@@ -82,14 +82,14 @@ export default function Home() {
           </div>
 
           <div className="mt-12 text-center">
-            <p className="text-sm text-gray-700 mb-2">
+            <p className="text-sm text-gray-200 mb-2">
               {isCancelled
                 ? "Auto redirect cancelled."
                 : `You will be automatically redirected to the dashboard in ${timeLeft} seconds...`}
             </p>
             {!isCancelled && (
               <button
-                className="bg-gray-500 text-gray-900 px-3 py-1 text-sm rounded border border-gray-600 hover:bg-purple-300 transition"
+                className="bg-gray-500 text-gray-200 px-3 py-1 text-sm rounded border border-gray-600 hover:bg-purple-300 transition"
                 onClick={handleCancel}
               >
                 Cancel Auto Redirect

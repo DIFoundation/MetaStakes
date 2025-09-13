@@ -165,12 +165,12 @@ export function useTransactionHistory() {
               case 'Staked':
                 type = 'Stake';
                 // Try different possible parameter names
-                amount = formatAmount(args.xfiAmount || args.amount || args.value || '0');
+                amount = formatAmount(args.sttAmount || args.amount || args.value || '0');
                 break;
                 
               case 'Unstaked':
                 type = 'Unstake';
-                amount = formatAmount(args.xfiAmount || args.amount || args.value || '0');
+                amount = formatAmount(args.sttAmount || args.amount || args.value || '0');
                 break;
                 
               case 'RewardsClaimed':
