@@ -44,7 +44,7 @@ export default function RewardsBreakdownChart({
         <div className="bg-[#1A1A1A] border border-[#3F3F46] rounded-lg p-3 shadow-lg">
           <p className="text-white font-medium">{`${label}`}</p>
           <p className="text-green-400">
-            {`Value: ${payload[0].value.toFixed(4)} LSK`}
+            {`Value: ${payload[0].value.toFixed(4)} STT`}
           </p>
         </div>
       );
@@ -57,7 +57,7 @@ export default function RewardsBreakdownChart({
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold">Staking Overview</h2>
         <div className="text-sm text-gray-400">
-          Total Value: {(stakedAmount + claimedAmount).toFixed(4)} LSK
+          Total Value: {(stakedAmount + claimedAmount).toFixed(4)} STT
         </div>
       </div>
 

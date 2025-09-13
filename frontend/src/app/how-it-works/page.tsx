@@ -5,8 +5,8 @@ export default function HowItWorks() {
   return (
     <>
       <Head>
-        <title>How It Works | LSK Liquid Staking Protocol</title>
-        <meta name="description" content="Learn how LSK liquid staking with auto-compounding sbFT tokens works." />
+        <title>How It Works | STT Liquid Staking Protocol</title>
+        <meta name="description" content="Learn how STT liquid staking with auto-compounding sbFT tokens works." />
       </Head>
 
       <main className="bg-[#0F172A]/50 mt-16 mx-40 text-[#F1F5F9] min-h-screen px-6 py-12 md:px-24">
@@ -27,13 +27,13 @@ export default function HowItWorks() {
 
           {/* Section 1 */}
           <section>
-            <h2 className="text-2xl font-semibold mb-4">1. Stake LSK → Receive Liquid sbFT</h2>
+            <h2 className="text-2xl font-semibold mb-4">1. Stake STT → Receive Liquid sbFT</h2>
             <p className="text-[#CBD5E1]">
-              Stake your <strong>LSK tokens</strong> and instantly receive <strong>sbFT tokens</strong> at the current exchange rate. 
+              Stake your <strong>STT tokens</strong> and instantly receive <strong>sbFT tokens</strong> at the current exchange rate. 
               These sbFT tokens are fully liquid and tradeable.
             </p>
             <p className="mt-2 text-[#94A3B8] italic">
-              Example: If exchange rate is 1.05, stake 100 LSK → receive ~95.24 sbFT (after 1% fee)
+              Example: If exchange rate is 1.05, stake 100 STT → receive ~95.24 sbFT (after 1% fee)
             </p>
           </section>
 
@@ -41,12 +41,12 @@ export default function HowItWorks() {
           <section>
             <h2 className="text-2xl font-semibold mb-4">2. Auto-Compounding Through Exchange Rate</h2>
             <p className="text-[#CBD5E1] mb-4">
-              Your sbFT tokens automatically become worth more LSK over time through exchange rate appreciation:
+              Your sbFT tokens automatically become worth more STT over time through exchange rate appreciation:
             </p>
             <div className="bg-[#1E293B] border border-[#334155] rounded-lg p-4 font-mono text-sm">
-              <div className="text-green-400">Initial: 1 sbFT = 1.0 LSK</div>
-              <div className="text-yellow-400">After 1 month: 1 sbFT = 1.067 LSK</div>
-              <div className="text-blue-400">After 1 year: 1 sbFT = 1.08 LSK (8% APY)</div>
+              <div className="text-green-400">Initial: 1 sbFT = 1.0 STT</div>
+              <div className="text-yellow-400">After 1 month: 1 sbFT = 1.067 STT</div>
+              <div className="text-blue-400">After 1 year: 1 sbFT = 1.08 STT (8% APY)</div>
             </div>
             <p className="mt-4 text-[#94A3B8] italic">
               ✨ No manual claiming needed - rewards compound every second automatically!
@@ -70,12 +70,12 @@ export default function HowItWorks() {
             <div className="grid md:grid-cols-3 gap-4">
               <div className="bg-[#1E293B] border border-green-500/30 rounded-lg p-4">
                 <h3 className="text-lg font-semibold text-green-400 mb-2">Regular Unstaking</h3>
-                <p className="text-[#CBD5E1] text-sm">Request unstake → Wait 7 days → Get full LSK value</p>
+                <p className="text-[#CBD5E1] text-sm">Request unstake → Wait 7 days → Get full STT value</p>
                 <p className="text-[#94A3B8] text-xs mt-2">Best rate, just requires patience</p>
               </div>
               <div className="bg-[#1E293B] border border-yellow-500/30 rounded-lg p-4">
                 <h3 className="text-lg font-semibold text-yellow-400 mb-2">Emergency Unstaking</h3>
-                <p className="text-[#CBD5E1] text-sm">Pay 5-25% penalty → Get LSK instantly</p>
+                <p className="text-[#CBD5E1] text-sm">Pay 5-25% penalty → Get STT instantly</p>
                 <p className="text-[#94A3B8] text-xs mt-2">For urgent liquidity needs</p>
               </div>
               <div className="bg-[#1E293B] border border-blue-500/30 rounded-lg p-4">
@@ -94,14 +94,14 @@ export default function HowItWorks() {
                 <h3 className="text-lg font-semibold text-blue-400 mb-2">Primary: Auto-Compounding (8% APY)</h3>
                 <p className="text-[#CBD5E1]">
                   Exchange rate increases continuously based on 8% annual yield. Your sbFT automatically 
-                  becomes worth more LSK - no action required!
+                  becomes worth more STT - no action required!
                 </p>
               </div>
               <div className="bg-[#1E293B] border border-[#334155] rounded-lg p-4">
                 <h3 className="text-lg font-semibold text-purple-400 mb-2">Secondary: Master NFT Distributions</h3>
                 <p className="text-[#CBD5E1]">
                   Weekly revenue sharing from platform fees (staking, trading, penalties). 
-                  These rewards are claimable separately in LSK tokens.
+                  These rewards are claimable separately in STT tokens.
                 </p>
               </div>
             </div>
@@ -166,7 +166,7 @@ export default function HowItWorks() {
               <div className="bg-[#1E293B] border border-[#334155] rounded-lg p-4">
                 <h3 className="text-lg font-semibold text-blue-400">Staking Fee</h3>
                 <p className="text-2xl font-bold text-white">1%</p>
-                <p className="text-[#94A3B8] text-sm">Deducted when staking LSK</p>
+                <p className="text-[#94A3B8] text-sm">Deducted when staking STT</p>
               </div>
               <div className="bg-[#1E293B] border border-[#334155] rounded-lg p-4">
                 <h3 className="text-lg font-semibold text-yellow-400">Emergency Unstaking</h3>
@@ -186,7 +186,7 @@ export default function HowItWorks() {
             <h2 className="text-2xl font-semibold mb-4">Quick Summary</h2>
             <div className="bg-gradient-to-r from-green-600/20 to-blue-600/20 border border-green-500/30 rounded-lg p-6">
               <p className="text-[#CBD5E1] text-lg leading-relaxed">
-                <strong className="text-white">Stake LSK</strong> → Get liquid <strong className="text-blue-400">sbFT tokens</strong> → 
+                <strong className="text-white">Stake STT</strong> → Get liquid <strong className="text-blue-400">sbFT tokens</strong> → 
                 Earn <strong className="text-green-400">8% APY automatically</strong> through exchange rate appreciation → 
                 Stay <strong className="text-yellow-400">fully liquid</strong> with multiple exit options → 
                 Participate in <strong className="text-purple-400">governance</strong> and earn 

@@ -60,8 +60,8 @@ export default function Navbar() {
   ];
 
   const resourcesItems: NavItem[] = [
-    { href: "https://lisk.com/", label: "Crossfi", external: true },
-    { href: "https://sepolia-blockscout.lisk.com/", label: "Explorer", external: true },
+    { href: "https://docs.somnia.network/", label: "Somnia Network", external: true },
+    { href: "https://shannon-explorer.somnia.network/", label: "Explorer", external: true },
     { href: "/contact-us", label: "Contact Us" },
   ];
 
@@ -79,7 +79,7 @@ export default function Navbar() {
         { href: "/", label: "Home" },
         { href: "https://www.investopedia.com/non-fungible-tokens-nft-5115211", label: "Explore NFTs", external: true },
         { href: "/how-it-works", label: "How It Works" },
-        { href: "https://github.com/DIFoundation/MetaStake/blob/main/README.md", label: "Docs", external: true },
+        { href: "https://github.com/DIFoundation/MetaStakes/blob/main/README.md", label: "Docs", external: true },
       ];
 
   // Close menu on outside click

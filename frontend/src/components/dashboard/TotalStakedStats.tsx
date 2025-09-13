@@ -158,15 +158,15 @@ export default function TotalStakedStats({
 }: Props) {
   const personalStats = [
     {
-      title: "Stake and Bake LSK Balance",
-      value: `${totalBals} LSK`,
+      title: "Stake and Bake STT Balance",
+      value: `${totalBals} STT`,
       subtitle: "Available in your wallet for staking",
       icon: <Wallet className="w-6 h-6" />,
       color: 'blue' as const,
     },
     {
       title: "Staked Amount",
-      value: `${totalStaked} LSK`,
+      value: `${totalStaked} STT`,
       subtitle: "Currently locked in staking contract",
       icon: <Lock className="w-6 h-6" />,
       color: 'purple' as const,
@@ -180,7 +180,7 @@ export default function TotalStakedStats({
     },
     {
       title: "Pending Rewards",
-      value: `${rewardsEarned} LSK`,
+      value: `${rewardsEarned} STT`,
       subtitle: "Ready to claim or compound",
       icon: <Gift className="w-6 h-6" />,
       color: 'green' as const,
@@ -198,14 +198,14 @@ export default function TotalStakedStats({
     },
     {
       title: "Monthly Projection",
-      value: `${estimatedMonthlyEarnings} LSK`,
+      value: `${estimatedMonthlyEarnings} STT`,
       subtitle: "Estimated earnings per month",
       icon: <Calendar className="w-6 h-6" />,
       color: 'blue' as const,
     },
     {
       title: "Yearly Projection",
-      value: `${estimatedYearlyEarnings} LSK`,
+      value: `${estimatedYearlyEarnings} STT`,
       subtitle: "Estimated earnings per year",
       icon: <PiggyBank className="w-6 h-6" />,
       color: 'yellow' as const,
@@ -221,22 +221,22 @@ export default function TotalStakedStats({
 
   const protocolStats = [
     {
-      title: "LSK Balance",  
-      value: `${balance} LSK`,
+      title: "STT Balance",  
+      value: `${balance} STT`,
       subtitle: "Available for transaction fees",
       icon: <DollarSign className="w-6 h-6" />,
       color: 'gray' as const,
     },
     {
       title: "Total Protocol TVL",
-      value: `${totalStakedContract} LSK`,
+      value: `${totalStakedContract} STT`,
       subtitle: "Total value locked across all users",
       icon: <BarChart3 className="w-6 h-6" />,
       color: 'orange' as const,
     },
     {
       title: "Protocol Fees",
-      value: `${totalFeesCollected} LSK`,
+      value: `${totalFeesCollected} STT`,
       subtitle: "Total fees collected by protocol",
       icon: <Users className="w-6 h-6" />,
       color: 'pink' as const,
