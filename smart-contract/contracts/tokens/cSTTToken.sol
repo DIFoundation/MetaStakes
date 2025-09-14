@@ -37,7 +37,7 @@ contract cSTTToken is ERC20, Ownable {
 
     function faucet(address to) external {
         require(block.timestamp - lastFaucetTime[msg.sender] >= 1 hours, "You can only faucet once per hour");
-        _mint(to, 100);
+        _mint(to, 100e18);
         lastFaucetTime[msg.sender] = block.timestamp;
     }
     

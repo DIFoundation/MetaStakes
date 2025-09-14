@@ -39,7 +39,7 @@ export default function Home() {
     <div className="min-h-screen text-white flex flex-col items-center justify-between pt-20">
       <Head>
         <title>StakeAndBake</title>
-        <meta name="description" content="Stake XFI Token, Earn sbFTs" />
+        <meta name="description" content="Stake STT Token, Earn sbFTs" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -53,10 +53,10 @@ export default function Home() {
         {/* Overlay Content */}
         <div className="relative z-10 backdrop-blur-xs bg-black/50 p-8 sm:p-16 rounded-xl text-white text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-            Stake Lisk Token, Earn sbFTs
+            Stake Somnia Token, Earn sbFTs
           </h1>
           <p className="max-w-2xl mx-auto mb-8 text-gray-200">
-            Participate in the Lisk ecosystem by staking your LSK token
+            Participate in the Somnia ecosystem by staking your STT token
             and receive sbFT as fractional NFTs (fNFTs) representing your stake.
             Sell portions of your sbFTs and earn rewards based on your retained
             share at the end of the staking period.
@@ -103,7 +103,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Key Features</h2>
           <p className="text-gray-400 mb-12">
-            Explore the benefits of staking with Lisk by earning
+            Explore the benefits of staking with Somnia by earning
             fNFTs.
           </p>
 
@@ -112,7 +112,7 @@ export default function Home() {
               <Repeat className="text-purple-400 w-8 h-8 mb-4" />
               <h3 className="font-semibold text-lg mb-2">Flexible Staking</h3>
               <p className="text-gray-400 text-sm">
-                Stake your LSK and receive sbFTs representing your stake,
+                Stake your STT and receive sbFTs representing your stake,
                 allowing for flexible participation in the ecosystem.
               </p>
             </div>

@@ -63,6 +63,7 @@ export default function Navbar() {
     { href: "https://docs.somnia.network/", label: "Somnia Network", external: true },
     { href: "https://shannon-explorer.somnia.network/", label: "Explorer", external: true },
     { href: "/contact-us", label: "Contact Us" },
+    { href: "/faucet", label: "Faucet"}
   ];
 
   const navItems: NavItem[] = isConnected

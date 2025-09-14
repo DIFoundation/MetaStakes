@@ -16,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Stake & Bake | Stake XFI, Earn sbFTs",
+  title: "Stake & Bake | Stake STT, Earn sbFTs",
   description:
-    "Stake your XFI tokens to earn sbFTs and participate in the ecosystem",
+    "Stake your STT tokens to earn sbFTs and participate in the ecosystem",
   themeColor: "#121212",
 };
 
