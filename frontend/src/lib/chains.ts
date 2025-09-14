@@ -1,23 +1,23 @@
 import { Chain } from 'viem';
 
-export const liskTestnet = {
-  id: 4202,
-  name: 'Lisk Sepolia Testnet',
+export const somniaTestnet = {
+  id: 50312,
+  name: 'Somni Testnet',
   nativeCurrency: {
     decimals: 18,
-    name: 'LSK',
-    symbol: 'LSK',
+    name: 'STT',
+    symbol: 'STT',
   },
   rpcUrls: {
     default: {
-      http: ['https://rpc.sepolia-api.lisk.com'],
+      http: ['https://dream-rpc.somnia.network'],
     },
     public: {
-      http: ['https://rpc.sepolia-api.lisk.com'],
+      http: ['https://dream-rpc.somnia.network'],
     },
   },
   blockExplorers: {
-    default: { name: 'blockscout', url: 'https://sepolia-blockscout.lisk.com/' },
+    default: { name: 'blockscout', url: 'https://shannon-explorer.somnia.network/' },
   },
   testnet: true,
 } as const satisfies Chain;
