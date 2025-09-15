@@ -948,20 +948,20 @@ export default function DashboardPage() {
 
   const nextRewardDate = "Continuous (Auto-compounding)";
 
-  if (!isConnected) {
-    return (
-      <div className="max-w-6xl mx-auto py-12 px-4 mt-16">
-        <div className="text-center text-white">
-          <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-2xl p-12 border border-gray-700">
-            <h1 className="text-4xl font-bold mb-4">Dashboard</h1>
-            <p className="text-gray-400 text-lg">
-              Please connect your wallet to view your dashboard
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // if (!isConnected) {
+  //   return (
+  //     <div className="max-w-6xl mx-auto py-12 px-4 mt-16">
+  //       <div className="text-center text-white">
+  //         <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-2xl p-12 border border-gray-700">
+  //           <h1 className="text-4xl font-bold mb-4">Dashboard</h1>
+  //           <p className="text-gray-400 text-lg">
+  //             Please connect your wallet to view your dashboard
+  //           </p>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   const tabs = [
     { id: "overview", label: "Overview" },
